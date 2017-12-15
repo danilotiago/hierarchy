@@ -31,7 +31,8 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function getLftName()
+    // pega o nome das colunas
+    /*public function getLftName()
     {
         return 'left';
     }
@@ -44,7 +45,8 @@ class User extends Authenticatable
     public function getParentIdName()
     {
         return 'parent';
-    }
+    }*/
+    // END
 
     // Specify parent id attribute mutator
     public function setParentAttribute($value)

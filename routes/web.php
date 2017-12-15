@@ -15,6 +15,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/test', function () {
+
+    $user = \App\User::first();
+
+    return $user->children->toJson();
+
+});
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
