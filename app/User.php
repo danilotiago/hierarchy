@@ -31,26 +31,8 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    // pega o nome das colunas
-    /*public function getLftName()
+    public function roles()
     {
-        return 'left';
-    }
-
-    public function getRgtName()
-    {
-        return 'right';
-    }
-
-    public function getParentIdName()
-    {
-        return 'parent';
-    }*/
-    // END
-
-    // Specify parent id attribute mutator
-    public function setParentAttribute($value)
-    {
-        $this->setParentIdAttribute($value);
+        return $this->hasMany(Role::class);
     }
 }

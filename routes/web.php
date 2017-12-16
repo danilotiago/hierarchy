@@ -17,9 +17,14 @@ Route::get('/', function () {
 
 Route::get('/test', function () {
 
-    $user = \App\User::first();
+     $pai = \App\User::find(1);
+     $filho = \App\User::find(16);
 
-    return $user->children->toJson();
+     print_r( \App\User::countErrors() );
+
+    //return \App\User::whereAncestorOrSelf($user->id)->get();
+
+    //return $user;
 
 });
 

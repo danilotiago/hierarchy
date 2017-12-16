@@ -24,6 +24,7 @@ class UsersTableSeeder extends Seeder
         // torna como raiz, logo nao terá um pai
         $paiA->saveAsRoot();
 
+
         $filhoA1 = User::create(['name' => 'FilhoA 1','email' => 'Afilho@filho1.com','password' => bcrypt('123456')]);
         $filhoA1->appendToNode($paiA)->save();
 
@@ -53,6 +54,18 @@ class UsersTableSeeder extends Seeder
 
         $filhoA10 = User::create(['name' => 'FilhoA 10','email' => 'Afilho@filho10.com','password' => bcrypt('123456')]);
         $filhoA10->appendToNode($paiA)->save();
+
+        $filhoA10 = User::create(['name' => 'netoA 1','email' => 'Aneto@Aneto1.com','password' => bcrypt('123456')]);
+        $filhoA10->appendToNode($filhoA1)->save();
+
+        $filhoA10 = User::create(['name' => 'netoA 3','email' => 'Aneto@neto3.com','password' => bcrypt('123456')]);
+        $filhoA10->appendToNode($filhoA3)->save();
+
+        $filhoA10 = User::create(['name' => 'netoA 5','email' => 'Aneto@neto5.com','password' => bcrypt('123456')]);
+        $filhoA10->appendToNode($filhoA5)->save();
+
+        $filhoA10 = User::create(['name' => 'neto segundo A 3','email' => 'Aneto@6.com','password' => bcrypt('123456')]);
+        $filhoA10->appendToNode($filhoA3)->save();
 
         $paiB = User::create([
             'name' => 'Pai B',
@@ -201,7 +214,186 @@ class UsersTableSeeder extends Seeder
         $filho->prependToNode($pai)->save(); // amarracao a partir do filho
         $pai->prependNode($filho); // amarracao a partir do pai*/
 
+        // =============================================
+        // remontando a arvore do zero
+        // =============================================
 
+        /*$data = [[
+            'name' => 'Pai C',
+            'email' => 'paiC@paiC.com',
+            'password' => bcrypt('123456'),
+
+            'children' => [
+                [
+                    'name' => 'FilhoC 1',
+                    'email' => 'Cfilho@filho1.com',
+                    'password' => bcrypt('123456'),
+                    'children' => [
+                        [
+                            'name' => 'NetoA 1',
+                            'email' => 'Aneto@Aneto1.com',
+                            'password' => bcrypt('123456'),
+                        ],
+                    ],
+                ],
+            ],
+        ]];
+        User::rebuildTree($data);*/
+
+        // =============================================
+        // remontando a arvore a partir de um nó raíz
+        // =============================================
+
+        /*$data = [
+            ['name' => 'filho 1', 'email' => 'email@email.com', 'password' => '123456', 'children' => [
+                ['name' => 'neto 1', 'email' => 'neto@email.com', 'password' => '123456']
+            ]]
+        ];
+        User::rebuildSubTree($paiA, $data);*/
+
+        // =============================================
+        // recuperando nós
+        // =============================================
+
+        // #1 pegando os filhos de primeiro grau
+        //$paiA->children;
+
+        // #2 pegando os pais ate os avos em diante
+        //$filhoA1->ancestors;
+
+        // #3 pegando os filhos ate os netos em diante
+        //$filhoA1->descendants;
+
+        // #4 pegando os pais ate os avos em diante de um user especifico
+        //User::ancestorsOf($id);
+
+        // #4.1 pegando os pais ate os avos em diante de um user especifico inclusive ele
+        //User::ancestorsAndSelf($id);
+
+        // #5 pegando os filhos ate os netos em diante de um user especifico
+        //User::descendantsOf($id);
+
+        // #5.1 pegando os filhos ate os netos em diante de um user especifico inclusive ele
+        //User::descendantsAndSelf($id);
+
+        // #6 pega os pais e avos etc, ordenados pela hierarquia
+        //User::defaultOrder()->ancestorsOf($id);
+
+        // #7 pega os filhos ate os netos em diante, ordenados pela hierarquia
+        //User::defaultOrder()->ancestorsOf($id);
+
+        // #8 pega todos seus irmaos
+        //$user->getSiblings();
+
+        // #9 pega apenas seu pŕoximo irmão
+        //$user->getNextSibling();
+
+        // #10 pega todos os proximos irmaos a partir do nó atual
+        // $user->getNextSiblings();
+
+        // #11 pega apenas seu irmao anterior
+        //$user->getPrevSibling();
+
+        // #12 pega todos seus irmaos anteriores
+        //$user->getPrevSibling();
+
+        // #13 pegando todas as roles na hierarquia de usuarios
+        /*$user = \App\User::find($id);
+        $users = $user->descendants()->pluck('id');
+        $users[] = $user->getKey();
+        return \App\Role::whereIn('user_id', $users)->get();*/
+
+        // #14 pega qual a profundidade do nó, ou seja, qual geração de familia o nó é. o raíz é zero
+        // \App\User::withDepth()->find($id)->depth;
+
+        // #15 pega os usuarios de acordo com a geracao (profundidade do nó)
+        // \App\User::withDepth()->having('depth', '=', '2')->get();
+
+        // =============================================
+        // ordenando nós
+        // =============================================
+
+        // #1 ordenando na ordem hierarquica
+        // \App\User::defaultOrder()->get();
+
+        // #2 ordenando na ordem inversa da hierarquica
+        // \App\User::reversed()->get();
+
+        // #3 subindo um nó de posição
+        // $user->up()
+
+        // #3 descendo um nó de posição
+        // $user->down()
+
+        // 4# pega apenas os nós raíz
+        // App\User::whereIsRoot()->get();
+
+        // 5# pega exatamente todos os nós após o id especificado
+        // \App\User::whereIsAfter($id)->get();
+
+        // 6# pega exatamente todos os nós anteriores ao id especificado
+        // \App\User::whereIsBefore($id)->get();
+
+        // 7# pega todos os flhos e netos de um user especificado
+        // \App\User::whereDescendantOf($user)->get();
+
+        // 8# pega todos que nao sejam seus filhos
+        // \App\User::whereNotDescendantOf($user)->get();
+
+        // 9# pega o nó e seus filhos
+        // \App\User::whereDescendantOrSelf($user)->get();
+
+        // 10# pega o nó e seus pais
+        //\App\User::whereAncestorOrSelf($user->id)->get();
+
+        // =============================================
+        // construindo a arvore
+        // =============================================
+
+        // #1 retorna a arvore com seus filhos ja formatados no array
+        // \App\User::get()->toTree();
+
+        // #2 retorna uma fila plana (pouco usado)
+        // \App\User::get()->toFlatTree();
+
+        // #3 retorna a arvore com seus filhos ja formatados no array a partir de um nó especificado
+        // \App\User::descendantsAndSelf($id)->toTree()->first();
+
+        // #4 retorna a arvore apenas com seus filhos e netos a partir de um nó especificado
+        // \App\User::descendantsOf($id)->toTree($id);
+
+        // =============================================
+        // excluindo um nó
+        // =============================================
+
+        // #1 apaga o nó e toda sua heranca
+        // $user->delete();
+
+        // =============================================
+        // metodos auxiliares
+        // =============================================
+
+        // verifica se um nó é descendente de outro
+        // $userA->isDescendantOf($userB)
+
+        // verifica se é um nó raíz
+        // $node->isRoot();
+
+        /**
+         *  $node->isChildOf($other);
+            $node->isAncestorOf($other);
+            $node->isSiblingOf($other);
+            $node->isLeaf()
+         */
+
+        // verifica se a arvore esta quebrada
+        // \App\User::isBroken()
+
+        // percentuais de nós quebrados
+        // \App\User::countErrors()
+
+        // tenta corrigir a arvore
+        // \App\User::fixTree();
 
     }
 }
